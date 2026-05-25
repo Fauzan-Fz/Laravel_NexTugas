@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
+            // Snowflake ID: unsigned big integer without auto-increment
+            $table->unsignedBigInteger('id')->primary();
             // Kolom judul tugas sekolah
             $table->string('title');
             // Kolom deskripsi (bisa null)

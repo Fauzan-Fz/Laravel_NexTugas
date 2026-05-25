@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('task_steps', function (Blueprint $table) {
-            $table->id();
-            // Relasi ke tabel tasks dengan cascade on delete
-            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
+            // Snowflake ID: unsigned big integer without auto-increment
+            $table->unsignedBigInteger('id')->primary();
+            // Relasi ke tabel tasks dengan cascade on delete (Snowflake ID)
+            $table->unsignedBigInteger('task_id');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             // Deskripsi langkah/sub-tugas dari AI
             $table->string('step_description');
             // Status apakah langkah ini sudah selesai

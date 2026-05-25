@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            // Snowflake ID: unsigned big integer without auto-increment
+            $table->unsignedBigInteger('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -29,7 +30,8 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

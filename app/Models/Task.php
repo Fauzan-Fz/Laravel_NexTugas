@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasSnowflake;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSnowflake;
+
+    /**
+     * Disable auto-increment for Snowflake IDs.
+     */
+    public $incrementing = false;
+
+    /**
+     * Snowflake IDs are integers.
+     */
+    protected $keyType = 'int';
 
     /**
      * Mass-assignable attributes.

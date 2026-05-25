@@ -13,8 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            // Foreign key referencing the users table — nullable to keep existing rows valid
-            $table->foreignId('user_id')->nullable()->after('id')->constrained()->cascadeOnDelete();
+            // Snowflake foreign key: unsigned big integer referencing users.id
+            $table->unsignedBigInteger('user_id')->nullable()->after('id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
